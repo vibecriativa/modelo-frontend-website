@@ -4,11 +4,33 @@ module.exports = {
   content: [
     './src/pages/*.{ts,tsx,astro}',
     './src/pages/**/*.{ts,tsx,astro}',
-    './src/components/**/*.{ts,tsx,astro}',
+    './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
   theme: {
+    patterns: {
+      opacities: {
+        100: "1",
+        80: ".80",
+        60: ".60",
+        40: ".40",
+        20: ".20",
+        10: ".10",
+        5: ".05",
+      },
+      sizes: {
+        1: "0.25rem",
+        2: "0.5rem",
+        4: "1rem",
+        6: "1.5rem",
+        8: "2rem",
+        16: "4rem",
+        20: "5rem",
+        24: "6rem",
+        32: "8rem",
+      }
+    },
     container: {
       center: true,
       padding: "2rem",
@@ -20,16 +42,22 @@ module.exports = {
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
+        ring: "#013966",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: "#013966",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
+          100: "#FBD64D",
+          200: "#FBDF4D",
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+        },
+        tertiary: {
+          100: "#03A07B",
+          200: "#05AE86"
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -59,12 +87,12 @@ module.exports = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: 0 },
+          from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: 0 },
+          to: { height: "0" },
         },
       },
       animation: {
@@ -73,6 +101,6 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require('@tailwindcss/typography'),
+  plugins: [require("tailwindcss-animate"), require('@tailwindcss/typography'), require('tailwindcss-bg-patterns')
   ],
 }

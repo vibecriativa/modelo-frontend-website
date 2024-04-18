@@ -31,19 +31,15 @@ from flask import Flask, request, abort
 load_dotenv()
 PORT = os.getenv("DEPLOY_PORT")
 
-#função para dar pull no git
-def gitPull():
-    os.system("git pull origin master")
-    print('pull feito')
 
-#função para reiniciar o docker php
+#função para fazer o git pull e buildar o projeto
 def BuildPags():
-    os.system("docker compose exec app ./build.sh")
-    print('restart node feito')
+    os.system("git pull origin main && docker compose exec app ./build.sh")
+    print('build feito com sucesso')
 
 app = Flask(__name__)
 
-secret_key = "q6PfxzAhvDQKGgqn"  # Substitua pela sua chave secreta do webhook
+secret_key = os.getenv("SECRET_KEY_DEPLOY")  # Substitua pela sua chave secreta do webhook
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -65,10 +61,10 @@ def webhook():
 
     # Faça o processamento adicional conforme necessário
     print("Webhook do Bitbucket recebido com sucesso!")
-    gitPull()
     BuildPags()
     return '', 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=PORT)
+
 
