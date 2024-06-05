@@ -1,14 +1,17 @@
 ---
 import HTML from "@/pages/_base.astro";
+import { fetchContent } from "@/utils/get-content";
+import type { contentsTypes } from "@/global_types/contents";
+// const content: contentsTypes[] | null = await fetchContent(["", ""]);
 ---
 <HTML title="Base Project" description="">
     <header class="py-40 bg-primary">
         <div class="container">
-            <div class="lg:w-[600px] lg:text-center mx-auto w-full">
-                <h1 class="text-2xl md:text-5xl text-center font-black text-white font-inter mb-4">
+            <div class="lg:w-[600px] mx-auto w-ful md:text-center ">
+                <h1 class="text-2xl md:text-5xl font-bold text-white font-inter">
                     Crie seus projetos de forma rápida e intuitiva
                 </h1>
-                <p class="my-8 lg:text-lg text-slate-50 leading-loose">
+                <p class="my-2 lg:text-lg text-slate-50 leading-loose">
                     A finalidade desse projeto é agilizar o processo de
                     desenvolvimento de forma padronizada, performática e
                     escalável

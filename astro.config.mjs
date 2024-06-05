@@ -3,18 +3,19 @@ import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import node from '@astrojs/node';
 import robotsTxt from 'astro-robots-txt';
-import image from '@astrojs/image';
+import { ClientURL } from './src/utils/project_data';
+import playformCompress from "@playform/compress";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://novo.agnrn.com.br/",
+  site: ClientURL,
   integrations: [react(), tailwind({
     applyBaseStyles: false
-  }), robotsTxt()],
+  }), robotsTxt(), playformCompress()],
   image: {
     service: passthroughImageService()
   },
-  output: 'hybrid',
+  output: 'server',
   adapter: node({
     mode: 'standalone'
   }),

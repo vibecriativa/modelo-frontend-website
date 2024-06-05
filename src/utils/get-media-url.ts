@@ -1,0 +1,1 @@
+export const media_url = "https://api.econmissaoflorida.com"

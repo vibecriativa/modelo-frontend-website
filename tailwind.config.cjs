@@ -1,13 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
-  content: [
-    './src/pages/*.{ts,tsx,astro}',
-    './src/pages/**/*.{ts,tsx,astro}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-  ],
+  content: ['./src/**/*.{astro,html,js,jsx,svelte,ts,tsx,vue}'],
   theme: {
     patterns: {
       opacities: {
@@ -46,7 +40,7 @@ module.exports = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#013966",
+          DEFAULT: "#4338ca",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {

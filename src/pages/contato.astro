@@ -3,7 +3,7 @@ import HTML from "@/pages/_base.astro";
 import { ContactForm } from "@/components/contact_form";
 ---
 <HTML title="Contato" description="Envie sua mensagem">
-    <div class="container flex justify-center items-center min-h-screen">
-        <ContactForm client:visible />
+    <div class="py-20 container">
+        <ContactForm client:load />
     </div>
 </HTML>

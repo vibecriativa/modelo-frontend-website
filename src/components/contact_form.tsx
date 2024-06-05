@@ -1,42 +1,77 @@
-import { useToast } from "@/components/ui/use-toast"
+
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { useForm } from "react-hook-form"
 import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from "sonner"
+import { useMutation } from "@tanstack/react-query";
+import { api } from "@/lib/axios";
+import type { AxiosError } from "axios";
+import { client } from "@/lib/react-query";
+import type { APIResponse } from "@/global_types/api-response";
+import { ClientURL } from "@/utils/project_data";
 
 const createFormSchema = z.object({
     name: z.string().nonempty("Inserir o nome é obrigatório"),
     email: z.string().nonempty("Inserir o email é obrigatório").email("O email que você digitou não é válido"),
-    subject: z.string().nonempty("Inserir o assunto é obrigatório"),
-    message: z.string().nonempty("Inserir a mensagem é obrigatório"),
+    tel: z.string().nonempty("Inserir o telefone é obrigatório"),
+    msg: z.string().nonempty("Inserir a mensagem é obrigatório"),
+    subject: z.string().optional()
 })
 
 type FormData = z.infer<typeof createFormSchema>
 
+async function sendFormAPI(data: FormData) {
+    const payload = {
+        data: {
+            ...data
+        }
+    };
+    const response = await api.post('contact/sendEmail', payload);
+    return response.data;
+}
+
 export function ContactForm() {
-    const { toast } = useToast()
-    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
-        resolver: zodResolver(createFormSchema)
+
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
+        resolver: zodResolver(createFormSchema),
+        defaultValues: {
+            subject: `Contato | ${ClientURL}`
+        }
     });
 
-    function sendMessage(data: FormData) {
-        toast({
-            title: "Mensagem enviada 🎉",
-            description: "Fique de olho na sua caixa de e-mail, iremos te responder em breve"
-        })
-        return data
+    const { mutateAsync, isPending } = useMutation<APIResponse, AxiosError, FormData>({
+        mutationFn: (data) => sendFormAPI(data),
+        onSuccess: (data) => {
+            if (data.status === 201) {
+                reset()
+                toast.success("Mensagem enviada 🎉", {
+                    description: "Fique de olho na sua caixa de e-mail, iremos te responder em breve"
+                });
+            }
+        },
+        onError: () => {
+            toast.error("Ops! Ocorreu algum erro", {
+                description: "Tente novamente em breve",
+            });
+        }
+    }, client)
+
+
+    function sendForm(data: FormData) {
+        mutateAsync(data)
     }
 
     return (
-        <form onSubmit={handleSubmit(sendMessage)} className="lg:w-4/12 w-full space-y-6 border border-slate-100 py-8 px-8 rounded-md">
-            <p className="text-lg text-slate-950">Fale conosco</p>
-            <Input label="Nome" {...register("name")} placeholder="Nome" error={errors.name?.message} />
-            <Input label="Email" {...register("email")} placeholder="Email" error={errors.email?.message} helperText="nome@gmail.com"/>
-            <Input label="Assunto" {...register("subject")} placeholder="Assunto" error={errors.subject?.message}/>
-            <Textarea label="Messagem" {...register("message")} placeholder="Mensagem..." error={errors.message?.message}/>
-            <Button>Enviar mensagem</Button>
+        <form onSubmit={handleSubmit(sendForm)} className="w-full grid gap-4 rounded-md">
+            <Input {...register("name")} placeholder="Digitar nome" error={errors?.name?.message} className="md:col-auto col-span-2" />
+            <Input {...register("email")} placeholder="Digitar email" error={errors?.email?.message} className="md:col-auto col-span-2" />
+            <Input {...register("tel")} className="col-span-2" placeholder="Digitar telefone" error={errors?.tel?.message} />
+            <Input type="textarea" className="col-span-2" {...register("msg")} placeholder="Digitar mensagem" error={errors?.msg?.message} />
+            <div className="flex justify-end  col-span-2">
+                <Button className="w-full">{isPending ? "Enviando mensagem..." : "Enviar mensagem"}</Button>
+            </div>
         </form>
-    )
+    );
 }

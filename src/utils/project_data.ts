@@ -1,5 +1,5 @@
 const ClientName = "Vibecriativa"
-const ClientURL = "vibecriativa.com.br"
+const ClientURL = "https://vibecriativa.com.br"
 const ClientEmail = "contato@vibecriativa.com.br"
 
 export {

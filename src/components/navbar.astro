@@ -1,0 +1,14 @@
+---
+const currentPath = Astro.url.pathname;
+---
+<nav class="py-2 border-b bg-white sticky top-0">
+  <div class="container flex justify-between items-center">
+      <a href="/"><img src="/logo.svg" /></a>
+      <ul class="flex">
+          <li><a href="/" class={`text-sm px-4 py-2 block ${currentPath === "/" ? 'text-primary' : ''}`}>Início</a></li>
+          <li><a href="/sobre" class={`text-sm px-4 py-2 block ${currentPath === "/sobre" ? 'text-primary' : ''}`}>Sobre</a></li>
+          <li><a href="/blog" class={`text-sm px-4 py-2 block ${currentPath === "/blog" ? 'text-primary' : ''}`}>Blog</a></li>
+          <li><a href="/contato" class={`text-sm px-4 py-2 block ${currentPath === "/contato" ? 'text-primary' : ''}`}>Entrar em contato</a></li>
+      </ul>
+  </div>
+</nav>
