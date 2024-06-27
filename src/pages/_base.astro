@@ -4,7 +4,7 @@ import Navbar from "@/components/navbar.astro";
 import Footer from "@/components/footer.astro";
 import { CookiesAlert } from "@/components/cookies_alert";
 import { ClientName, ClientURL } from "@/utils/project_data";
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
 interface Props {
 	title: string;
 	description: string;
@@ -14,7 +14,8 @@ interface Props {
 }
 const { title, description, image, url, creator } = Astro.props;
 ---
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="pt-br">
 	<head>
 		<meta charset="UTF-8" />
@@ -124,6 +125,11 @@ const { title, description, image, url, creator } = Astro.props;
 			content="/favicons/ms-icon-144x144.png"
 		/>
 		<meta name="theme-color" content="#ffffff" />
+		<style>
+			@view-transition {
+				navigation: auto; /* enabled! */
+			}
+		</style>
 	</head>
 	<body>
 		<Navbar />
