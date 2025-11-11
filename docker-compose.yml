@@ -36,7 +36,5 @@ services:
 
 networks:
   default:
-    driver: ${NETWORK_MODE_NAME}
     name: ${NETWORK_NAME}
-
-
+    external: true
