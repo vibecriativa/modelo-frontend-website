@@ -13,8 +13,9 @@ COPY package*.json ./
 #install python
 RUN apk add --no-cache python3 py3-pip
 RUN apk add --no-cache --virtual .build-deps alpine-sdk python3-dev libffi-dev openssl-dev
-RUN python3 -m venv /home/node/app/venv
-RUN /home/node/app/venv/bin/pip install fastapi uvicorn pynacl
+RUN python3 -m venv /home/node/app/venv \
+	&& /home/node/app/venv/bin/pip install --upgrade pip \
+	&& /home/node/app/venv/bin/pip install fastapi uvicorn pynacl
 RUN npm install -g npm@10.5.0
 RUN npm install --legacy-peer-deps
 #exec .sh
